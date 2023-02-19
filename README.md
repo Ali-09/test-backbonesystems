@@ -28,6 +28,11 @@ nvm use $(Get-Content .nvmrc)
 nvm use
 ```
 
+Create environment file .env.local for develop or .env for production following content
+```
+NEXT_PUBLIC_API_URL=<YOUR-BASE-API-URL>
+```
+
 Open the terminal in the project directory, and install dependencies with:
 
 ```bash
