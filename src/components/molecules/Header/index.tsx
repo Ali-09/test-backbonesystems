@@ -4,7 +4,7 @@ import ImageLogo from "@/src/assets/images/logo.svg";
 const Header = () => {
   return (
     <StyledHeader>
-        <StyledLogo alt="logo" fill src={ImageLogo} />
+        <StyledLogo alt="logo" priority quality={75} fill src={ImageLogo} />
     </StyledHeader>
   )
 }
