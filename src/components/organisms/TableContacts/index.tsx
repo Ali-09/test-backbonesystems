@@ -11,10 +11,12 @@ export type TableContactsProps = {
     onChangePage: (page: number) => void
     search: string,
     handleSetSearch: (search: string) => void
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed' 
+    loading: 'idle' | 'pending' | 'succeeded' | 'failed',
+    onGoContactsNew: () => void 
+    onGoContactEdit: (id:string) => void 
 }
 
-const TableContacts = ({ data, onChangePage, handleSetSearch, search, loading }: TableContactsProps) => {
+const TableContacts = ({ onGoContactsNew, onGoContactEdit, data, onChangePage, handleSetSearch, search, loading }: TableContactsProps) => {
     const { results, totalPages } = data
     const onDisabled = () => {
         if(loading === 'pending') return {pointerEvents: "none", opacity: 0.2}
@@ -30,7 +32,7 @@ const TableContacts = ({ data, onChangePage, handleSetSearch, search, loading }:
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <Grid container justifyContent="flex-end">
-                                <Button variant="contained" startIcon={<PersonIcon />}>
+                                <Button variant="contained" startIcon={<PersonIcon />} onClick={onGoContactsNew}>
                                     Nuevo contacto
                                 </Button>
                             </Grid>
@@ -63,7 +65,7 @@ const TableContacts = ({ data, onChangePage, handleSetSearch, search, loading }:
                                                     <TableCell>{item.email}</TableCell>
                                                     <TableCell align="center">{item.phone}</TableCell>
                                                     <TableCell align="center">
-                                                        <IconButton aria-label="delete" color="primary">
+                                                        <IconButton aria-label="delete" color="primary" onClick={() => onGoContactEdit(item.id)}>
                                                             <EditIcon />
                                                         </IconButton>
                                                         <IconButton aria-label="edit" color="error">

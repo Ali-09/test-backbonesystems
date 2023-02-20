@@ -1,6 +1,5 @@
-import { Grid, Container } from "@mui/material"
+import { Grid } from "@mui/material"
 import { TableContacts } from "@/src/components"
-import { Main } from "@/src/components"
 import type { TableContactsProps } from "@/src/components"
 
 type HomeProps = {
@@ -9,13 +8,9 @@ type HomeProps = {
 
 const Home = ({tableContactsProps}: HomeProps) => {
     return (
-        <Main>
-            <Container>
-                <Grid container alignContent='center' spacing={2}>
-                    <TableContacts {...tableContactsProps}/>
-                </Grid>
-            </Container>
-        </Main>
+        <Grid container alignContent='center' spacing={2}>
+            <TableContacts {...tableContactsProps}/>
+        </Grid>
     );
 }
 

@@ -1,15 +1,17 @@
 import Head from "next/head"
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "@/src/hooks/redux"
-import { HomeTemplate } from "@/src/components"
-import { fetchContacts } from "@/src/store/contactSlice"
+import { useAppDispatch, useAppSelector } from "@/src/hooks/redux";
+import { HomeTemplate } from "@/src/components";
+import { fetchContacts } from "@/src/store/contactSlice";
 
 export default function Home() {
 
-  const dispatch = useAppDispatch()
-  const data = useAppSelector(state => state.contacts.data)
-  const [emailSearch, setEmailSearch] = useState("")
-  const loading = useAppSelector(state => state.contacts.loading)
+  const dispatch = useAppDispatch();
+  const data = useAppSelector(state => state.contacts.data);
+  const [emailSearch, setEmailSearch] = useState("");
+  const loading = useAppSelector(state => state.contacts.loading);
+  const router = useRouter(); 
 
   useEffect(() => {
     dispatch(fetchContacts())
@@ -25,7 +27,9 @@ export default function Home() {
     onChangePage: (page:number) => dispatch(fetchContacts({page, search: emailSearch})),
     search: emailSearch,
     handleSetSearch: (val:string) => setEmailSearch(val),
-    loading
+    loading,
+    onGoContactsNew: () => router.push("/contacts/create"),
+    onGoContactEdit: (id: string) => router.push(`contacts/${id}`)
   }
   return (
     <>
