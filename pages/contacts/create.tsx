@@ -1,4 +1,5 @@
-import Head from "next/head"
+import Head from "next/head";
+import { useMemo } from "react";
 import { useForm } from 'react-hook-form';
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/src/hooks/redux";
@@ -38,12 +39,16 @@ const validateRules = {
 }
 
 export default function Create() {
-  const { register, handleSubmit, formState: { errors } } = useForm<NewContactData>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<NewContactData>();
   const dispatch = useAppDispatch()
   const loading: string = useAppSelector(state => state.contacts.loading);
   const error = useAppSelector(state => state.contacts.error);
   const message = useAppSelector(state => state.contacts.message);
   const router = useRouter();
+
+  useMemo(() => {
+    if(loading === "succeeded" && !error) reset()
+  }, [loading, error])
   
   const onAddContact = (data: NewContactData) => {
     dispatch(postContact(data))
