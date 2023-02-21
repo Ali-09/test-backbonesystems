@@ -4,19 +4,19 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
 type PropsInputSearch = {
-  setValue?: (val:string) => void,
-  value?: string,
-  placeholder?: string,
-}
+  setValue: (val:string) => void,
+  value: string,
+  placeholder: string,
+};
 
-const InputSearch = ({setValue = () => {}, value="", placeholder=""}: PropsInputSearch) => {
+function InputSearch({ setValue = () => {}, value = '', placeholder = '' }: PropsInputSearch) {
   return (
     <Paper
-      sx={{ display: 'flex', alignItems: 'center', width: "100%" }}
+      sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        onChange={( e: React.ChangeEvent<HTMLInputElement> )=> setValue(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
         value={value}
         placeholder={placeholder}
       />
@@ -27,4 +27,4 @@ const InputSearch = ({setValue = () => {}, value="", placeholder=""}: PropsInput
   );
 }
 
-export default InputSearch
+export default InputSearch;

@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IResultContacts, IContact } from "@/src/models/contact";
-import type { NewContactData } from "@/src/components";
-import HTTP from "@/src/utils/http_common";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import { IResultContacts, IContact } from '@/src/models/contact';
+import type { NewContactData } from '@/src/components';
+import HTTP from '@/src/utils/http_common';
 
 interface IContactState {
   data: IResultContacts;
@@ -23,18 +23,18 @@ const initialState: IContactState = {
     perPage: 0,
     currentPage: 0,
     totalPages: 0,
-    results: []
+    results: [],
   },
   contact: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
   },
-  message: "",
-  loading: "idle",
-  error: ""
-}
+  message: '',
+  loading: 'idle',
+  error: '',
+};
 
 interface ParamsFetchContacts {
   page?: number,
@@ -42,65 +42,65 @@ interface ParamsFetchContacts {
   isOrder?: boolean
 }
 
-//Thunks:
+// Thunks:
 export const fetchContacts = createAsyncThunk(
-  "contact/fetchContacts", 
-  async ({page = 1, search = "", isOrder = false}: ParamsFetchContacts = {}) => {
-    const response = await HTTP.get<IResultContacts>(`/contacts?page=${page}${search && `&email_contains=${search}`}${isOrder ? "&_sort=updatedAt:DESC" : ""}`);
-    const data: IResultContacts = response.data;
+  'contact/fetchContacts',
+  async ({ page = 1, search = '', isOrder = false }: ParamsFetchContacts = {}) => {
+    const response = await HTTP.get<IResultContacts>(`/contacts?page=${page}${search && `&email_contains=${search}`}${isOrder ? '&_sort=updatedAt:DESC' : ''}`);
+    const { data } = response;
     return data;
-  }
+  },
 );
 
 export const fetchContact = createAsyncThunk(
-  "contact/fetchContact", 
+  'contact/fetchContact',
   async (id:string) => {
     const response = await HTTP.get<IContact>(`/contacts/${id}`);
-    const data: IContact = response.data;
+    const { data } = response;
     return data;
-  }
+  },
 );
 
 export const postContact = createAsyncThunk(
-  "contact/postContacts", 
+  'contact/postContacts',
   async (contact: NewContactData, { rejectWithValue }) => {
-    try{
-      const response = await HTTP.post("/contacts", contact);
-      const data = response.data;
+    try {
+      const response = await HTTP.post('/contacts', contact);
+      const { data } = response;
       return data;
-    }catch(e: any){
-      const errors = e.response.data?.data?.errors
-      if(errors) return rejectWithValue(Object.values(errors).flat()[0]);
-      return rejectWithValue(e.response.data?.message || e.message )
+    } catch (e: any) {
+      const errors = e.response.data?.data?.errors;
+      if (errors) return rejectWithValue(Object.values(errors).flat()[0]);
+      return rejectWithValue(e.response.data?.message || e.message);
     }
-  }
+  },
 );
 
 export const putContact = createAsyncThunk(
-  "contact/putContacts", 
+  'contact/putContacts',
   async (contactEdit: IContactEdit, { rejectWithValue }) => {
-    try{
+    try {
       const response = await HTTP.put(`/contacts/${contactEdit.id}`, contactEdit.data);
-      const data = response.data;
+      const { data } = response;
       return data;
-    }catch(e: any){
-      const errors = e.response.data?.data?.errors
-      if(errors) return rejectWithValue(Object.values(errors).flat()[0]);
-      return rejectWithValue(e.response.data?.message || e.message )
+    } catch (e: any) {
+      const errors = e.response.data?.data?.errors;
+      if (errors) return rejectWithValue(Object.values(errors).flat()[0]);
+      return rejectWithValue(e.response.data?.message || e.message);
     }
-  }
+  },
 );
 
 export const deleteContact = createAsyncThunk(
-  "contact/deleteContact", 
+  'contact/deleteContact',
   async (id: string) => {
     const response = await HTTP.delete(`/contacts/${id}`);
-    const data = response.data;
+    const { data } = response;
     return data;
-  }
+  },
 );
 
-//Slice:
+// Slice:
 export const contactSlice = createSlice({
   name: 'contact',
   initialState,
@@ -116,17 +116,17 @@ export const contactSlice = createSlice({
         state.data = payload as IResultContacts;
         state.loading = 'succeeded';
       })
-      .addCase(fetchContacts.rejected, (state, {error}) => {
+      .addCase(fetchContacts.rejected, (state, { error }) => {
         state.loading = 'failed';
         state.data = {
           ...initialState.data,
-          results:[]
-        }
+          results: [],
+        };
         state.error = error.message as string;
       })
       .addCase(fetchContact.pending, (state) => {
         state.loading = 'pending';
-        state.contact = initialState.contact
+        state.contact = initialState.contact;
         state.message = '';
         state.error = '';
       })
@@ -134,9 +134,9 @@ export const contactSlice = createSlice({
         state.contact = payload as IContact;
         state.loading = 'succeeded';
       })
-      .addCase(fetchContact.rejected, (state, {error}) => {
+      .addCase(fetchContact.rejected, (state, { error }) => {
         state.loading = 'failed';
-        state.contact = initialState.contact 
+        state.contact = initialState.contact;
         state.error = error.message as string;
       })
       .addCase(postContact.pending, (state) => {
@@ -145,7 +145,7 @@ export const contactSlice = createSlice({
         state.error = '';
       })
       .addCase(postContact.fulfilled, (state) => {
-        state.message = "Contacto creado correctamente!";
+        state.message = 'Contacto creado correctamente!';
         state.loading = 'succeeded';
       })
       .addCase(postContact.rejected, (state, { payload }) => {
@@ -158,7 +158,7 @@ export const contactSlice = createSlice({
         state.error = '';
       })
       .addCase(putContact.fulfilled, (state) => {
-        state.message = "Contacto modificado correctamente!";
+        state.message = 'Contacto modificado correctamente!';
         state.loading = 'succeeded';
       })
       .addCase(putContact.rejected, (state, { payload }) => {
@@ -171,14 +171,14 @@ export const contactSlice = createSlice({
         state.error = '';
       })
       .addCase(deleteContact.fulfilled, (state) => {
-        state.message = "Contacto eliminado correctamente!";
+        state.message = 'Contacto eliminado correctamente!';
         state.loading = 'succeeded';
       })
       .addCase(deleteContact.rejected, (state, { error }) => {
         state.loading = 'failed';
         state.error = error.message as string;
-      })
+      });
   },
-})
+});
 
-export default contactSlice.reducer
+export default contactSlice.reducer;
