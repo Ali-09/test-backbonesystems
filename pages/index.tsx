@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "@/src/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/src/hooks/useRedux";
 import { HomeTemplate } from "@/src/components";
 import { fetchContacts } from "@/src/store/contactSlice";
 import useDebounce from "@/src/hooks/useDebounce";
