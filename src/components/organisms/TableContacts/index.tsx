@@ -1,4 +1,4 @@
-import { IconButton, LinearProgress, Box, TableContainer, Button, Paper, Grid, TableBody, TableRow, TableCell, Pagination, Typography } from '@mui/material'
+import { IconButton, FormControlLabel, Switch, LinearProgress, Box, TableContainer, Button, Paper, Grid, TableBody, TableRow, TableCell, Pagination, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,10 +13,12 @@ export type TableContactsProps = {
     handleSetSearch: (search: string) => void
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     onGoContactsNew: () => void 
-    onGoContactEdit: (id:string) => void 
+    onGoContactEdit: (id:string) => void,
+    handleOrder: (checked: boolean) => void
+    order: boolean
 }
 
-const TableContacts = ({ onGoContactsNew, onGoContactEdit, data, onChangePage, handleSetSearch, search, loading }: TableContactsProps) => {
+const TableContacts = ({ order, handleOrder, onGoContactsNew, onGoContactEdit, data, onChangePage, handleSetSearch, search, loading }: TableContactsProps) => {
     const { results, totalPages } = data
     const onDisabled = () => {
         if(loading === 'pending') return {pointerEvents: "none", opacity: 0.2}
@@ -26,12 +28,20 @@ const TableContacts = ({ onGoContactsNew, onGoContactEdit, data, onChangePage, h
         <Grid item xs={12}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Grid container alignItems="center">
+                    <Grid container alignItems="center" spacing={2}>
                         <Grid item xs={12} md={4}>
                             <InputSearch placeholder="Busqueda por correo" setValue={handleSetSearch} value={search}/>
                         </Grid>
                         <Grid item xs={12} md={8}>
-                            <Grid container justifyContent="flex-end">
+                            <Grid container justifyContent="space-between">
+                                <FormControlLabel
+                                    value={order}
+                                    onChange={(_, checked) =>handleOrder(checked)}
+                                    control={<Switch color="primary" />}
+                                    label="Recientes"
+                                    labelPlacement="end"
+                                    sx={{marginLeft:0}}
+                                />
                                 <Button variant="contained" startIcon={<PersonIcon />} onClick={onGoContactsNew}>
                                     Nuevo contacto
                                 </Button>

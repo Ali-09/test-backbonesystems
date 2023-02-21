@@ -38,14 +38,15 @@ const initialState: IContactState = {
 
 interface ParamsFetchContacts {
   page?: number,
-  search?: string
+  search?: string,
+  isOrder?: boolean
 }
 
 //Thunks:
 export const fetchContacts = createAsyncThunk(
   "contact/fetchContacts", 
-  async ({page = 1, search = ""}: ParamsFetchContacts = {}) => {
-    const response = await HTTP.get<IResultContacts>(`/contacts?page=${page}${search && `&_sort=email:${search}`}`);
+  async ({page = 1, search = "", isOrder = false}: ParamsFetchContacts = {}) => {
+    const response = await HTTP.get<IResultContacts>(`/contacts?page=${page}${search && `&email_contains=${search}`}${isOrder ? "&_sort=updatedAt:DESC" : ""}`);
     const data: IResultContacts = response.data;
     return data;
   }
