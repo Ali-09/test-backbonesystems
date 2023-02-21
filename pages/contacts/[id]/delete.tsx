@@ -2,7 +2,7 @@ import Head from "next/head"
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { deleteContact, fetchContact } from "@/src/store/contactSlice";
-import { useAppDispatch, useAppSelector } from "@/src/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/src/hooks/useRedux";
 import { DeleteContact } from "@/src/components";
 
 export default function Home() {

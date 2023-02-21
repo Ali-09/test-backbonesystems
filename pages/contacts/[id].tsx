@@ -2,7 +2,7 @@ import Head from "next/head"
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { useForm } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from "@/src/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/src/hooks/useRedux";
 import { putContact, fetchContact } from "@/src/store/contactSlice";
 import { EditContact } from "@/src/components"
 import type { NewContactData } from "@/src/components"
