@@ -47,18 +47,18 @@ export default function Edit() {
   const message = useAppSelector(state => state.contacts.message);
   const router = useRouter();
   const id = router.query.id;
-  
+
   useEffect(() => {
-      if(id) dispatch(fetchContact(id as string))
+    if (id) dispatch(fetchContact(id as string))
   }, [dispatch, router.query.id])
 
   useMemo(() => {
     reset(contact)
   }, [contact])
-  
+
   const onAddContact = (data: NewContactData) => {
     const id = router.query.id as string;
-    dispatch(putContact({data, id}))
+    dispatch(putContact({ data, id }))
   }
 
   const propsNewContact = {
@@ -71,15 +71,15 @@ export default function Edit() {
     onAddContact,
     message,
     validateRules,
-    isEdit: true, 
+    isEdit: true,
   }
 
   return (
     <>
       <Head>
-        <title>Test Backbone - Nuevo contacto</title>
+        <title>Test Backbone - Modificar contacto</title>
       </Head>
-      <EditContact formContactProps={propsNewContact}/>
+      <EditContact formContactProps={propsNewContact} />
     </>
   )
 }

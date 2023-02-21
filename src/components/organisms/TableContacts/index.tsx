@@ -14,11 +14,12 @@ export type TableContactsProps = {
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     onGoContactsNew: () => void 
     onGoContactEdit: (id:string) => void,
+    onGoContactDelete: (id:string) => void,
     handleOrder: (checked: boolean) => void
     order: boolean
 }
 
-const TableContacts = ({ order, handleOrder, onGoContactsNew, onGoContactEdit, data, onChangePage, handleSetSearch, search, loading }: TableContactsProps) => {
+const TableContacts = ({ order, handleOrder, onGoContactDelete, onGoContactsNew, onGoContactEdit, data, onChangePage, handleSetSearch, search, loading }: TableContactsProps) => {
     const { results, totalPages } = data
     const onDisabled = () => {
         if(loading === 'pending') return {pointerEvents: "none", opacity: 0.2}
@@ -78,7 +79,7 @@ const TableContacts = ({ order, handleOrder, onGoContactsNew, onGoContactEdit, d
                                                         <IconButton aria-label="delete" color="primary" onClick={() => onGoContactEdit(item.id)}>
                                                             <EditIcon />
                                                         </IconButton>
-                                                        <IconButton aria-label="edit" color="error">
+                                                        <IconButton aria-label="edit" color="error" onClick={() => onGoContactDelete(item.id)}>
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </TableCell>

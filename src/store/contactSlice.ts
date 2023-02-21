@@ -91,6 +91,15 @@ export const putContact = createAsyncThunk(
   }
 );
 
+export const deleteContact = createAsyncThunk(
+  "contact/deleteContact", 
+  async (id: string) => {
+    const response = await HTTP.delete(`/contacts/${id}`);
+    const data = response.data;
+    return data;
+  }
+);
+
 //Slice:
 export const contactSlice = createSlice({
   name: 'contact',
@@ -155,6 +164,19 @@ export const contactSlice = createSlice({
       .addCase(putContact.rejected, (state, { payload }) => {
         state.loading = 'failed';
         state.error = payload as string;
+      })
+      .addCase(deleteContact.pending, (state) => {
+        state.loading = 'pending';
+        state.message = '';
+        state.error = '';
+      })
+      .addCase(deleteContact.fulfilled, (state) => {
+        state.message = "Contacto eliminado correctamente!";
+        state.loading = 'succeeded';
+      })
+      .addCase(deleteContact.rejected, (state, { error }) => {
+        state.loading = 'failed';
+        state.error = error.message as string;
       })
   },
 })

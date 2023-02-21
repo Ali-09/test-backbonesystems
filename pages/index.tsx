@@ -39,6 +39,7 @@ export default function Home() {
     loading,
     onGoContactsNew: () => router.push("/contacts/create"),
     onGoContactEdit: (id: string) => router.push(`contacts/${id}`),
+    onGoContactDelete: (id: string) => router.push(`contacts/${id}/delete`),
     handleOrder,
     order
   }
