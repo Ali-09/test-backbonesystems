@@ -8,6 +8,7 @@ export interface IContact {
   updatedAt: Date;
   __v: number;
   id: string;
+  [key: string]: any;
 }
 
 export interface IResultContacts {
