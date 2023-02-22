@@ -131,7 +131,7 @@ export const contactSlice = createSlice({
         state.error = '';
       })
       .addCase(fetchContact.fulfilled, (state, { payload }) => {
-        state.contact = payload as IContact;
+        state.contact = payload as NewContactData;
         state.loading = 'succeeded';
       })
       .addCase(fetchContact.rejected, (state, { error }) => {

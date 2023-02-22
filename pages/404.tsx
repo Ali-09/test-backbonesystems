@@ -20,7 +20,7 @@ export default function Page404() {
     >
       <Container maxWidth="md">
         <Grid container spacing={2} justifyContent="center" sx={{ textAlign: 'center' }}>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Typography variant="h1" align="center">
               404
             </Typography>
