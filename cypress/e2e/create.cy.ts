@@ -10,6 +10,13 @@ const form: NewContactData = {
 };
 
 describe('/create', () => {
+  beforeEach(() => {
+    cy.visit('/contacts/create');
+    cy.intercept('POST', '/contacts', {
+      fixture: 'POST/postContact.json',
+    }).as('deleteContact-Fixture');
+  });
+
   it('Create contact succefully', () => {
     const keys = Object.keys(form);
     cy.visit('/contacts/create');
@@ -23,6 +30,12 @@ describe('/create', () => {
       .contains('Contacto creado correctamente!');
   });
   it('Create contact - email duplicate error', () => {
+    cy.intercept('POST', '/contacts', {
+      statusCode: 422,
+      body: {
+        message: 'This email address already exists!',
+      },
+    }).as('putContactFailed-Fixture');
     const keys = Object.keys(form);
     cy.visit('/contacts/create');
     keys.forEach((key: string) => {

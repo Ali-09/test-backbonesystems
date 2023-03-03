@@ -1,16 +1,16 @@
 /// <reference types="cypress" />
 
-beforeEach(() => {
-  cy.visit('/');
-  cy.get('.PrivateSwitchBase-input')
-    .click()
-    .wait(200);
-  cy.get('.MuiTableRow-root [data-testid="DeleteIcon"] > path')
-    .first()
-    .click();
-});
-
 describe('/[id]', () => {
+  beforeEach(() => {
+    cy.visit('/contacts/628aa531cfe289001693fbea/delete');
+    cy.intercept('GET', '/contacts/628aa531cfe289001693fbea', {
+      fixture: 'GET/getContact.json',
+    }).as('getContact-Fixture');
+    cy.intercept('DELETE', '/contacts/628aa531cfe289001693fbea', {
+      fixture: 'POST/postContact.json',
+    }).as('deleteContact-Fixture');
+  });
+
   it('Delete contact - click', () => {
     cy.get('.MuiButton-containedError')
       .click();
